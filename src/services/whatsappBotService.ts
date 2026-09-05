@@ -1,9 +1,24 @@
 /**
  * Frontend Service to interact with the self-hosted WhatsApp Automation Node Service
- * Base URL: http://localhost:3001
  */
 
-const WHATSAPP_SERVER_URL = import.meta.env.VITE_WHATSAPP_SERVER_URL || 'http://localhost:3001';
+const DEFAULT_URL = import.meta.env.VITE_WHATSAPP_SERVER_URL || 'http://localhost:3001';
+
+export const getWhatsAppServerUrl = (): string => {
+  const saved = localStorage.getItem('custom_whatsapp_server_url');
+  if (saved && saved.trim()) {
+    return saved.trim().replace(/\/+$/, ''); // Remove trailing slash
+  }
+  return DEFAULT_URL.replace(/\/+$/, '');
+};
+
+export const setCustomWhatsAppServerUrl = (url: string): void => {
+  if (!url || !url.trim()) {
+    localStorage.removeItem('custom_whatsapp_server_url');
+  } else {
+    localStorage.setItem('custom_whatsapp_server_url', url.trim().replace(/\/+$/, ''));
+  }
+};
 
 export interface WhatsAppBotStatusResponse {
   status: 'DISCONNECTED' | 'INITIALIZING' | 'QR_READY' | 'CONNECTED';
@@ -32,11 +47,12 @@ export interface BulkSendResponse {
 }
 
 /**
- * Check health & QR status of local WhatsApp automation bot server
+ * Check health & QR status of local/cloud WhatsApp automation bot server
  */
 export const getWhatsAppBotStatus = async (): Promise<WhatsAppBotStatusResponse> => {
+  const baseUrl = getWhatsAppServerUrl();
   try {
-    const res = await fetch(`${WHATSAPP_SERVER_URL}/api/status`);
+    const res = await fetch(`${baseUrl}/api/status`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } catch (err) {
@@ -53,7 +69,8 @@ export const getWhatsAppBotStatus = async (): Promise<WhatsAppBotStatusResponse>
  * Send 1-click silent background automated WhatsApp message to a single number
  */
 export const sendAutomatedWhatsAppMessage = async (phone: string, message: string) => {
-  const res = await fetch(`${WHATSAPP_SERVER_URL}/api/send-message`, {
+  const baseUrl = getWhatsAppServerUrl();
+  const res = await fetch(`${baseUrl}/api/send-message`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ phone, message })
@@ -71,7 +88,8 @@ export const sendAutomatedWhatsAppMessage = async (phone: string, message: strin
  * Send 1-click silent background automated WhatsApp messages to multiple parents sequentially
  */
 export const sendBulkAutomatedWhatsApp = async (items: BulkSendItem[]): Promise<BulkSendResponse> => {
-  const res = await fetch(`${WHATSAPP_SERVER_URL}/api/send-bulk`, {
+  const baseUrl = getWhatsAppServerUrl();
+  const res = await fetch(`${baseUrl}/api/send-bulk`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ items })
@@ -89,7 +107,8 @@ export const sendBulkAutomatedWhatsApp = async (items: BulkSendItem[]): Promise<
  * Logout & disconnect session
  */
 export const logoutWhatsAppBot = async () => {
-  const res = await fetch(`${WHATSAPP_SERVER_URL}/api/logout`, {
+  const baseUrl = getWhatsAppServerUrl();
+  const res = await fetch(`${baseUrl}/api/logout`, {
     method: 'POST'
   });
   return await res.json();
