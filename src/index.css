@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #FFFDF5;
+    color: #1E1B18;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Tactile paper texture background */
+.bg-tactile-paper {
+  background-color: #FFFDF5;
+  background-image: radial-gradient(rgba(180, 83, 9, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Wavy handcrafted section divider SVG container */
+.handcrafted-divider {
+  line-height: 0;
+  width: 100%;
+}
+
+/* Soft organic image frame with handcrafted border radius */
+.organic-frame-1 {
+  border-radius: 2rem 0.75rem 2.5rem 1rem;
+}
+.organic-frame-2 {
+  border-radius: 1rem 2.5rem 0.75rem 2rem;
+}
+
+/* Clean typography accent */
+.font-handwriting {
+  font-family: 'Caveat', cursive;
+}
+
+/* Custom smooth scroll bar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FFFDF5;
+}
+::-webkit-scrollbar-thumb {
+  background: #FCD34D;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #F59E0B;
+}
+
+/* Bee Trail Path Draw animation */
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-dash {
+  stroke-dasharray: 8 8;
+  stroke-dashoffset: 100;
+  animation: dash 5s linear infinite;
+}
