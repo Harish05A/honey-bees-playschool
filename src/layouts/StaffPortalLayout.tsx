@@ -11,7 +11,8 @@ import {
   Menu, 
   X, 
   ShieldCheck, 
-  ExternalLink
+  ExternalLink,
+  ArrowLeftRight
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
@@ -129,6 +130,14 @@ export const StaffPortalLayout: React.FC = () => {
           </div>
 
           <div className="pt-2 space-y-2">
+            <Link
+              to="/school/dashboard"
+              className="w-full py-2 px-3 bg-amber-100/80 hover:bg-amber-200 text-amber-950 font-bold rounded-xl text-xs border border-amber-300/80 transition-colors flex items-center justify-between"
+            >
+              <span>Play School Portal</span>
+              <ArrowLeftRight className="w-3.5 h-3.5 text-amber-800" />
+            </Link>
+
             <Link
               to="/"
               className="w-full py-2 px-3 bg-white hover:bg-amber-100 text-slate-700 font-bold rounded-xl text-xs border border-amber-200 transition-colors flex items-center justify-between"

@@ -10,8 +10,20 @@ import { StaffAttendancePage } from './pages/StaffAttendancePage';
 import { StaffFeesPage } from './pages/StaffFeesPage';
 import { StaffReportsPage } from './pages/StaffReportsPage';
 import { StaffSettingsPage } from './pages/StaffSettingsPage';
+import { StaffSchoolStudentsPage } from './pages/StaffSchoolStudentsPage';
+import { StaffSchoolStudentFormPage } from './pages/StaffSchoolStudentFormPage';
+import { StaffSchoolStudentDetailPage } from './pages/StaffSchoolStudentDetailPage';
+import { StaffTeachersPage } from './pages/StaffTeachersPage';
+import { StaffTeacherFormPage } from './pages/StaffTeacherFormPage';
+import { StaffTeacherDetailPage } from './pages/StaffTeacherDetailPage';
+import { SchoolDashboardPage } from './pages/SchoolDashboardPage';
+import { SchoolAttendancePage } from './pages/SchoolAttendancePage';
+import { SchoolFeesPage } from './pages/SchoolFeesPage';
+import { SchoolSalariesPage } from './pages/SchoolSalariesPage';
+import { SchoolMessagingPage } from './pages/SchoolMessagingPage';
 import { ProtectedLayout } from './layouts/ProtectedLayout';
 import { StaffPortalLayout } from './layouts/StaffPortalLayout';
+import { SchoolPortalLayout } from './layouts/SchoolPortalLayout';
 
 export const App: React.FC = () => {
   return (
@@ -37,7 +49,29 @@ export const App: React.FC = () => {
             <Route path="reports" element={<StaffReportsPage />} />
             <Route path="settings" element={<StaffSettingsPage />} />
 
+            {/* Play School Redirects */}
+            <Route path="school-students" element={<Navigate to="/school/students" replace />} />
+            <Route path="teachers" element={<Navigate to="/school/teachers" replace />} />
+
             <Route index element={<Navigate to="/staff/dashboard" replace />} />
+          </Route>
+        </Route>
+
+        {/* Protected Play School Portal Routes */}
+        <Route path="/school" element={<ProtectedLayout />}>
+          <Route element={<SchoolPortalLayout />}>
+            <Route path="dashboard" element={<SchoolDashboardPage />} />
+            <Route path="students" element={<StaffSchoolStudentsPage />} />
+            <Route path="students/new" element={<StaffSchoolStudentFormPage />} />
+            <Route path="students/:id" element={<StaffSchoolStudentDetailPage />} />
+            <Route path="attendance" element={<SchoolAttendancePage />} />
+            <Route path="fees" element={<SchoolFeesPage />} />
+            <Route path="teachers" element={<StaffTeachersPage />} />
+            <Route path="teachers/new" element={<StaffTeacherFormPage />} />
+            <Route path="teachers/:id" element={<StaffTeacherDetailPage />} />
+            <Route path="salaries" element={<SchoolSalariesPage />} />
+            <Route path="messaging" element={<SchoolMessagingPage />} />
+            <Route index element={<Navigate to="/school/dashboard" replace />} />
           </Route>
         </Route>
 

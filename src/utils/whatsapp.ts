@@ -67,3 +67,90 @@ export const getPaymentReceiptWhatsAppUrl = (
 
   return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
 };
+
+/**
+ * Generate 1-click WhatsApp URL for Play School Absentee Notification
+ */
+export const getSchoolAbsenteeWhatsAppUrl = (
+  phone: string,
+  studentName: string,
+  date: string,
+  group?: string
+): string => {
+  const cleanPhone = formatWhatsAppNumber(phone);
+  if (!cleanPhone) return '#';
+
+  const message = `Dear Parent, ${studentName}${group ? ` (${group})` : ''} was marked ABSENT for Honey Bees Play School on ${date}. Please let us know if everything is okay or contact us at 8667330368. - Honey Bees Play School`;
+
+  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+};
+
+/**
+ * Generate 1-click WhatsApp URL for Play School Fee Reminder
+ */
+export const getSchoolFeeReminderWhatsAppUrl = (
+  phone: string,
+  studentName: string,
+  dueAmount: number,
+  unpaidMonthsText?: string
+): string => {
+  const cleanPhone = formatWhatsAppNumber(phone);
+  if (!cleanPhone) return '#';
+
+  const monthContext = unpaidMonthsText ? `for ${unpaidMonthsText}` : 'for recent play school months';
+  const message = `Dear Parent, This is a gentle reminder from Honey Bees Play School that school fees for ${studentName} ${monthContext} (Total Due: ₹${dueAmount.toLocaleString('en-IN')}) are pending. Kindly arrange for payment at your earliest convenience. Thank you!`;
+
+  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+};
+
+/**
+ * Generate 1-click WhatsApp URL for Play School Fee Payment Receipt
+ */
+export const getSchoolPaymentReceiptWhatsAppUrl = (
+  phone: string,
+  studentName: string,
+  amount: number,
+  paymentDate: string,
+  method?: string,
+  notes?: string
+): string => {
+  const cleanPhone = formatWhatsAppNumber(phone);
+  if (!cleanPhone) return '#';
+
+  let message = `Dear Parent, Thank you! We have received a play school fee payment of ₹${amount.toLocaleString('en-IN')} for ${studentName} on ${paymentDate}.`;
+  if (method) message += ` Method: ${method}.`;
+  if (notes) message += ` Ref: ${notes}.`;
+  message += ` - Honey Bees Play School`;
+
+  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+};
+
+/**
+ * Generate 1-click WhatsApp URL for Teacher Salary Payment Slip
+ */
+export const getTeacherSalaryWhatsAppUrl = (
+  phone: string,
+  teacherName: string,
+  amount: number,
+  monthName: string,
+  paymentDate: string,
+  method?: string
+): string => {
+  const cleanPhone = formatWhatsAppNumber(phone);
+  if (!cleanPhone) return '#';
+
+  let message = `Dear ${teacherName}, Your salary of ₹${amount.toLocaleString('en-IN')} for ${monthName} has been processed on ${paymentDate}`;
+  if (method) message += ` via ${method}`;
+  message += `. Thank you for your dedication! - Honey Bees Play School`;
+
+  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+};
+
+/**
+ * Generate 1-click WhatsApp URL for a custom message
+ */
+export const getCustomWhatsAppUrl = (phone: string, message: string): string => {
+  const cleanPhone = formatWhatsAppNumber(phone);
+  if (!cleanPhone) return '#';
+  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+};
